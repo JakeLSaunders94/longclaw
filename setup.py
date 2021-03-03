@@ -93,7 +93,7 @@ setup(
         'django-extensions==3.1.1',
         'djangorestframework==3.12.2',
         'django-ipware==3.0.2',
-        'django-polymorphic==2.0.3',
+        'django-polymorphic==3.0.0',
     ],
     license="MIT",
     zip_safe=False,
