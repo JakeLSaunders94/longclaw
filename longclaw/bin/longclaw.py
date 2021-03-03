@@ -81,7 +81,7 @@ def main():
     start.set_defaults(func=create_project)
 
     add = subparsers.add_parser('add_longclaw', help='Add longclaw to your existing wagtail project.')
-    start.set_defaults(func=add_longclaw)
+    add.set_defaults(func=add_longclaw)
 
     build = subparsers.add_parser('build', help='Build the front-end assets for Longclaw')
     build.set_defaults(func=build_assets)
