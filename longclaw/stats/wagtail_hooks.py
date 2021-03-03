@@ -5,6 +5,7 @@ from longclaw.orders.models import Order
 from longclaw.stats import stats
 from longclaw.configuration.models import Configuration
 from longclaw.utils import ProductVariant, maybe_get_product_model
+from wagtail.core.models import Site
 
 
 class LongclawSummaryItem(SummaryItem):
@@ -48,7 +49,7 @@ class ProductCount(LongclawSummaryItem):
 class MonthlySales(LongclawSummaryItem):
     order = 30
     def get_context(self):
-        settings = Configuration.for_site(self.request.site)
+        settings = Configuration.for_site(Site.find_for_request(self.request))
         sales = stats.sales_for_time_period(*stats.current_month())
         return {
             'total': "{}{}".format(settings.currency_html_code,

@@ -130,11 +130,12 @@ Python example:
 
     from longclaw.shipping import utils
     from longclaw.configuration.models import Configuration
+    from wagtail.core.models import Site
 
     country_code = "GB" # ISO 2-letter country code for a configured shipping rate
     option = "standard" # Name of shipping rate configured through longclaw admin (only used if more than one shipping rate exists for the given country)
 
-    settings = Configuration.for_site(request.site)
+    settings = Configuration.for_site(Site.find_for_request(request))
 
     try:
       data = utils.get_shipping_cost(country_code, option, settings)
