@@ -91,7 +91,7 @@ setup(
         'wagtail==2.12.2',
         'django-countries==7.0',
         'django-extensions==3.1.1',
-        'djangorestframework==3.12.3',
+        'djangorestframework==3.12.2',
         'django-ipware==3.0.2',
         'django-polymorphic==2.0.3',
     ],
