@@ -34,6 +34,23 @@ def create_project(args):
     utility.execute()
     print("{} has been created.".format(args.project_name))
 
+def add_longclaw(args):
+    """
+    Add the base longclaw files to an existing wagtail project.
+    """
+
+    # Get the longclaw template path
+    template_path = path.join(path.dirname(longclaw.__file__), 'project_template', 'catalog')
+
+    utility = ManagementUtility((
+        'django-admin.py',
+        'startapp',
+        '--template={}'.format(template_path),
+        'catalog'
+    ))
+    utility.execute()
+    print("Your project is now a longclaw project.")
+
 def build_assets(args):
     """
     Build the longclaw assets
