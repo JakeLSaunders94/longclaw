@@ -2,6 +2,7 @@ from decimal import Decimal
 from django.utils.module_loading import import_string
 from django.utils import timezone
 from ipware.ip import get_client_ip
+from longclaw.shipping.models import Country
 
 from longclaw.basket.utils import get_basket_items, destroy_basket
 from longclaw.shipping.utils import get_shipping_cost
@@ -32,7 +33,11 @@ def create_order(email,
         except KeyError:
             shipping_name = addresses['shipping_address_name']
 
-        shipping_country = addresses['shipping_address_country']
+        try:
+            shipping_country = Country.objects.get(iso=addresses['shipping_address_country'])
+        except Country.DoesNotExist:
+            shipping_country = None
+
         if not shipping_country:
             shipping_country = None
         shipping_address, _ = Address.objects.get_or_create(name=shipping_name,
@@ -48,7 +53,12 @@ def create_order(email,
             billing_name = addresses['billing_name']
         except KeyError:
             billing_name = addresses['billing_address_name']
-        billing_country = addresses['shipping_address_country']
+
+        try:
+            billing_country = Country.objects.get(iso=addresses['billing_address_country'])
+        except Country.DoesNotExist:
+            billing_country = None
+            
         if not billing_country:
             billing_country = None
         billing_address, _ = Address.objects.get_or_create(name=billing_name,
