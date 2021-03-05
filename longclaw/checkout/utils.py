@@ -58,7 +58,7 @@ def create_order(email,
             billing_country = Country.objects.get(iso=addresses['billing_address_country'])
         except Country.DoesNotExist:
             billing_country = None
-            
+
         if not billing_country:
             billing_country = None
         billing_address, _ = Address.objects.get_or_create(name=billing_name,

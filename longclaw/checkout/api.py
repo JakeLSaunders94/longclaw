@@ -63,6 +63,8 @@ def create_order_with_token(request):
         response = Response(data={"order_id": order.id},
                         status=status.HTTP_201_CREATED)
 
+    return response
+
 
 @transaction.atomic
 @api_view(['POST'])
