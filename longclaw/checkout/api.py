@@ -10,6 +10,7 @@ from longclaw.basket.utils import destroy_basket
 from longclaw.checkout.utils import create_order, GATEWAY
 from longclaw.checkout.errors import PaymentError
 
+
 @api_view(['GET'])
 @permission_classes([permissions.AllowAny])
 def create_token(request):
@@ -19,6 +20,7 @@ def create_token(request):
     """
     token = GATEWAY.get_token(request)
     return Response({'token': token}, status=status.HTTP_200_OK)
+
 
 @transaction.atomic
 @api_view(['POST'])
@@ -56,6 +58,7 @@ def create_order_with_token(request):
 
     return Response(data={"order_id": order.id}, status=status.HTTP_201_CREATED)
 
+
 @transaction.atomic
 @api_view(['POST'])
 @permission_classes([permissions.AllowAny])
@@ -84,6 +87,7 @@ def capture_payment(request):
     address = request.data['address']
     email = request.data.get('email', None)
     shipping_option = request.data.get('shipping_option', None)
+    order_total = request.data.get('order_total', None)
 
     # Capture the payment
     order = create_order(
@@ -91,9 +95,14 @@ def capture_payment(request):
         request,
         addresses=address,
         shipping_option=shipping_option,
-        capture_payment=True
+        capture_payment=True,
+        order_total=order_total
     )
-    response = Response(data={"order_id": order.id},
-                        status=status.HTTP_201_CREATED)
+    if order.status == order.FAILURE:
+        response = Response(data={"order_id": order.id},
+                            status=status.HTTP_402_PAYMENT_REQUIRED)
+    else:
+        response = Response(data={"order_id": order.id},
+                            status=status.HTTP_201_CREATED)
 
     return response

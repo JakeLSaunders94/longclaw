@@ -31,4 +31,9 @@ BRAINTREE_PRIVATE_KEY = getattr(settings, 'BRAINTREE_PRIVATE_KEY', '')
 # Only required for using paypal as the payment gateway through braintree v.zero
 VZERO_ACCESS_TOKEN = getattr(settings, 'VZERO_ACCESS_TOKEN', '')
 
+# Only required if using Paypal as the payment gateway
+PAYPAL_CLIENT_ID = getattr(settings, 'PAYPAL_CLIENT_ID', '')
+PAYPAL_SECRET = getattr(settings, 'PAYPAL_SECRET', '')
+PAYPAL_SANDBOX = getattr(settings, 'PAYPAL_SANDBOX', False)
+
 API_URL_PREFIX = getattr(settings, 'LONGCLAW_API_URL_PREFIX', 'api/')

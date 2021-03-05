@@ -18,7 +18,8 @@ def create_order(email,
                  shipping_address=None,
                  billing_address=None,
                  shipping_option=None,
-                 capture_payment=False):
+                 capture_payment=False,
+                 order_total=0):
     """
     Create an order from a basket and customer infomation
     """
@@ -94,6 +95,13 @@ def create_order(email,
             order=order
         )
         order_item.save()
+
+    # Check to see if the buyer has paid enough for those items
+    if not capture_payment:
+        if not order_total:
+            order.status = order.FAILURE
+        if float(order_total) != total:
+            order.status = order.FAILURE
 
     if capture_payment:
         desc = 'Payment from {} for order id #{}'.format(email, order.id)
