@@ -56,7 +56,12 @@ def create_order_with_token(request):
     # Once the order has been successfully taken, we can empty the basket
     destroy_basket(request)
 
-    return Response(data={"order_id": order.id}, status=status.HTTP_201_CREATED)
+    if order.status == order.FAILURE:
+        response = Response(data={"order_id": order.id},
+                            status=status.HTTP_402_PAYMENT_REQUIRED)
+    else:
+        response = Response(data={"order_id": order.id},
+                        status=status.HTTP_201_CREATED)
 
 
 @transaction.atomic
