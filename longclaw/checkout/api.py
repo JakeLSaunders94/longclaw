@@ -38,6 +38,7 @@ def create_order_with_token(request):
         shipping_option = request.data.get('shipping_option', None)
         email = request.data['email']
         transaction_id = request.data['transaction_id']
+        order_total = request.data['order_total']
     except KeyError:
         return Response(data={"message": "Missing parameters from request data"},
                         status=status.HTTP_400_BAD_REQUEST)
@@ -48,6 +49,7 @@ def create_order_with_token(request):
         request,
         addresses=address,
         shipping_option=shipping_option,
+        order_total=order_total,
     )
 
     order.payment_date = timezone.now()
