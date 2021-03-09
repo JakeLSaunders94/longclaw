@@ -1,5 +1,6 @@
 import random
 from longclaw.basket.models import BasketItem
+from django.db.models import Sum
 
 BASKET_ID_SESSION_KEY = 'basket_id'
 
@@ -25,6 +26,15 @@ def get_basket_items(request):
     """
     bid = basket_id(request)
     return BasketItem.objects.filter(basket_id=bid), bid
+
+def get_total_basket_count(request):
+    """
+    Get the total number of items * quantities
+    """
+    bid = basket_id(request)
+    sum = BasketItem.objects.filter(basket_id=bid).aggregate(Sum('quantity'))
+    return sum['sum__quantity'], bid
+
 
 def destroy_basket(request):
     """Delete all items in the basket

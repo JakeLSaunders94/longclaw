@@ -1,7 +1,8 @@
 from django import template
-from longclaw.basket.utils import get_basket_items
+from longclaw.basket.utils import get_basket_items, get_total_basket_count
 
 register = template.Library()
+
 
 @register.simple_tag(takes_context=True)
 def basket(context):
@@ -9,6 +10,15 @@ def basket(context):
     Return the BasketItems in the current basket
     """
     items, _ = get_basket_items(context["request"])
+    return items
+
+
+@register.simple_tag(takes_context=True)
+def total_basket_count(context):
+    """
+    Return the total number of BasketItems in the current basket
+    """
+    items, _ = total_basket_count(context["request"])
     return items
 
 
