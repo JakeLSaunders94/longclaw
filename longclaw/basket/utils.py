@@ -33,7 +33,11 @@ def get_total_basket_count(request):
     """
     bid = basket_id(request)
     sum = BasketItem.objects.filter(basket_id=bid).aggregate(Sum('quantity'))
-    return sum['sum__quantity'], bid
+    if isinstance(sum['quantity__sum'], int):
+        sum = sum['quantity__sum']
+    else:
+        sum = 0
+    return sum, bid
 
 
 def destroy_basket(request):

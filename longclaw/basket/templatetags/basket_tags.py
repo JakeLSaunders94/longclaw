@@ -18,7 +18,7 @@ def total_basket_count(context):
     """
     Return the total number of BasketItems in the current basket
     """
-    items, _ = total_basket_count(context["request"])
+    items, _ = get_total_basket_count(context["request"])
     return items
 
 
